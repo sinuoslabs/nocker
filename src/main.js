@@ -27,7 +27,6 @@ async function runDocker(options) {
 }
 
 /**
- * Stop docker-compose action
  *
  * @param options
  * @returns {Promise<never>}
