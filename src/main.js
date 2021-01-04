@@ -23,10 +23,10 @@ export async function createDockerFile(options) {
     const templateDir = path.resolve(
         new URL(currentFileUrl).pathname,
         '../../stubs',
-        options.template.toLowerCase()
+        options.template.toLowerCase().replace(/, | /gi, '-')
     );
 
-    options.templateDirectory = templateDir;
+    options.templateDirectory = `${templateDir}/${options.nodeVersion}`;
 
     try {
         await access(templateDir, fs.constants.R_OK);

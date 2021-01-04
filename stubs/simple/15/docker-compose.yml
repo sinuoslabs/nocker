@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  main:
+    build:
+      context: ./node_modules/nocker/config/nocker/runtimes/15.0
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: nocker-15.0/app
+    environment:
+      WWWUSER: '${WWWUSER}'
+      NOCKER: 1
+    volumes:
+      - '.:/var/app'
+    ports:
+      - '${APP_PORT:-80}:80'
+    command: npm run start
+    networks:
+      - nocker
+
+networks:
+  nocker:
+    driver: bridge

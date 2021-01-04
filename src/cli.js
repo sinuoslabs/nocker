@@ -33,6 +33,7 @@ function parseArgumentsIntoOptions(rawArgs) {
  */
 async function promptForMissingOptions(options) {
     const defaultTemplate = 'Simple';
+    const defaultVersion = '12';
 
     /**
      * Check if skipPrompts is defined
@@ -41,7 +42,8 @@ async function promptForMissingOptions(options) {
     if (options.skipPrompts) {
         return {
             ...options,
-            template: options.template || defaultTemplate
+            template: options.template || defaultTemplate,
+            nodeVersion: options.nodeVersion || defaultVersion
         };
     }
 
@@ -53,6 +55,19 @@ async function promptForMissingOptions(options) {
     let questions = [];
 
     /**
+     * Check if nodejs version defined
+     */
+    if (!options.nodeVersion) {
+        questions.push({
+            type: 'list',
+            name: 'nodeVersion',
+            message: 'Please choose node version for your project',
+            choices: ['12', '14', '15'],
+            default: defaultVersion
+        });
+    }
+
+    /**
      * Check if template defined
      */
     if (!options.template) {
@@ -60,7 +75,26 @@ async function promptForMissingOptions(options) {
             type: 'list',
             name: 'template',
             message: 'Please choose which project template to use',
-            choices: ['Simple', 'CQRS', 'MySql', 'Postgres', 'MySql-redis', 'Postgres-redis'],
+            choices: [
+                'Simple',
+                'CQRS',
+                'CQRS Mysql',
+                'CQRS Mysql, Redis',
+                'CQRS Mysql, Memcached, Redis',
+                'CQRS Postgres',
+                'CQRS Postgres, Redis',
+                'CQRS Postgres, Memcached, Redis',
+                'MySql',
+                'MySql, Redis',
+                'MySql, Memcached',
+                'MySql, Memcached, Redis',
+                'Postgres',
+                'Postgres, Redis',
+                'Postgres, Memcached',
+                'Postgres, Memcached, Redis',
+                'Memcached',
+                'Redis'
+            ],
             default: defaultTemplate
         });
     }
@@ -89,6 +123,7 @@ async function promptForMissingOptions(options) {
      */
     return {
         ...options,
+        nodeVersion: options.nodeVersion || answers.nodeVersion,
         template: options.template || answers.template,
         runInstall: options.runInstall || answers.runInstall
     }
