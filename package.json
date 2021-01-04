@@ -1,0 +1,43 @@
+{
+  "name": "@djamo/nocker",
+  "version": "1.0.0",
+  "description": "Docker environment for node project",
+  "main": "src/cli.js",
+  "bin": {
+    "@djamo/nocker": "bin/nocker",
+    "nocker": "bin/nocker"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "docker",
+    "node",
+    "Djamo",
+    "cli"
+  ],
+  "author": {
+    "name": "Djamo CI",
+    "email": "contact@djamo.io"
+  },
+  "contributors": [
+    {
+      "name": "Hassane Dao",
+      "email": "dao.hassane@gmail.com"
+    },
+    {
+      "name": "Houssene Dao",
+      "email": "dao.houssene@gmail.com"
+    }
+  ],
+  "repository": "",
+  "license": "MIT",
+  "dependencies": {
+    "arg": "^5.0.0",
+    "esm": "^3.2.25",
+    "inquirer": "^7.3.3"
+  }
+}
