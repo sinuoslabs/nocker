@@ -1,6 +1,6 @@
 import arg from 'arg';
 import inquierer from "inquirer";
-import {createDockerFile, stopEnv} from './main';
+import {createDockerFile, runEnv, stopEnv} from './main';
 
 /**
  *
@@ -65,28 +65,15 @@ async function promptForMissingOptions(options) {
      */
     if (!options.template) {
         questions.push({
-            type: 'list',
+            type: 'checkbox',
             name: 'template',
-            message: 'Please choose which project template to use',
+            message: 'Please choose which service you want to use',
             choices: [
-                'Simple',
                 'CQRS',
-                'CQRS Mysql',
-                'CQRS Mysql, Redis',
-                'CQRS Mysql, Memcached, Redis',
-                'CQRS Postgres',
-                'CQRS Postgres, Redis',
-                'CQRS Postgres, Memcached, Redis',
-                'MySql',
-                'MySql, Redis',
-                'MySql, Memcached',
-                'MySql, Memcached, Redis',
-                'Postgres',
-                'Postgres, Redis',
-                'Postgres, Memcached',
-                'Postgres, Memcached, Redis',
+                'Mysql',
+                'Redis',
                 'Memcached',
-                'Redis'
+                'Postgres',
             ],
             default: defaultTemplate
         });
@@ -136,7 +123,7 @@ export async function cli(args) {
             await createDockerFile(options);
             break;
         case options.command === 'up:env':
-            console.log('up');
+            await runEnv(options);
             break;
         case options.command === 'down:env':
             await stopEnv(options);

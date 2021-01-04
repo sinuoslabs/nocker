@@ -11,27 +11,23 @@ const access = promisify(fs.access);
 const copy = promisify(ncp);
 
 async function runDocker(options) {
-    const result = await execa('docker-compose up', ['-d'], {
-        cwd: options.targetDirectory
-    });
-
-    if (result.failed) {
-        return Promise.reject(new Error('Failed to initialize Install'))
+    try {
+        await execa('docker-compose', ['up -d'], {
+            cwd: options.targetDirectory
+        })
+    } catch (e) {
+        return Promise.reject(new Error('Failed to run docker-compose'));
     }
-
-
 }
 
 async function stopDocker(options) {
-    const {result} = await execa('print down', {
-        cwd: options.targetDirectory
-    });
-
-    if (result.failed) {
-        return Promise.reject(new Error('Failed to initialize Install'))
+    try {
+        await execa('docker-compose', ['down'], {
+            cwd: options.targetDirectory
+        })
+    } catch (e) {
+        return Promise.reject(new Error('Failed to down docker-compose'));
     }
-
-    return;
 }
 
 async function copyTemplateFiles(options) {
@@ -40,22 +36,43 @@ async function copyTemplateFiles(options) {
     });
 }
 
-export async function stopEnv(options) {
+export async function runEnv(options) {
     const tasks = new Listr([
         {
-            title: 'stop env',
-            task: () => stopDocker(options),
-            enabled: () => options.command
+            title: 'Run env',
+            task: () => runDocker(options),
         },
     ]);
 
     await tasks.run();
 
-    //console.log('%s Docker file ready', chalk.green.bold('DONE'));
+    console.log('%s Docker running', chalk.green.bold('DONE'));
+    return true;
+}
+
+export async function stopEnv(options) {
+    const tasks = new Listr([
+        {
+            title: 'stop env',
+            task: () => stopDocker(options),
+        },
+    ]);
+
+    await tasks.run();
+
+    console.log('%s Docker stopped', chalk.green.bold('DONE'));
     return true;
 }
 
 export async function createDockerFile(options) {
+    /**
+     *
+     */
+    if (options.template.includes("Mysql") && options.template.includes("Postgres")) {
+        console.error('%s you selected two database service', chalk.red.bold('ERROR'));
+        process.exit(1);
+    }
+
     options = {
         ...options,
         targetDirectory: options.targetDirectory || process.cwd(),
