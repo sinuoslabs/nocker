@@ -1,6 +1,6 @@
 import arg from 'arg';
 import inquierer from "inquirer";
-import {createDockerFile} from './main';
+import {createDockerFile, stopEnv} from './main';
 
 /**
  *
@@ -12,17 +12,21 @@ function parseArgumentsIntoOptions(rawArgs) {
         {
             '--install': Boolean,
             '--yes': Boolean,
+            '--template': String,
             '-i': Boolean,
+            '-t': String,
         },
         {
-            argv: rawArgs.slice(2)
+            argv: rawArgs.slice(2),
+            stopAtPositional: true
         },
-    );
+    )
 
     return {
         skipPrompts: args['--yes'] || false,
-        template: args._[0],
+        command: args._[0],
         runInstall: args['--install'] || false,
+        template: args['--template'],
     };
 }
 
@@ -100,18 +104,6 @@ async function promptForMissingOptions(options) {
     }
 
     /**
-     * Check if runInstall is defined
-     */
-    if (!options.runInstall) {
-        questions.push({
-            type: 'confirm',
-            name: 'runInstall',
-            message: 'Initialize docker compose file',
-            default: false,
-        });
-    }
-
-    /**
      * Save user answers
      *
      * @type {*}
@@ -136,6 +128,23 @@ async function promptForMissingOptions(options) {
  */
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
-    options = await promptForMissingOptions(options);
-    await createDockerFile(options);
+    switch (true) {
+        case options.command === 'down' && !options.template:
+            await stopEnv(options);
+            break;
+        case options.command === 'install' && options.template === '':
+            options = await promptForMissingOptions(options);
+            await createDockerFile(options);
+            break;
+        case options.command === 'install' && options.template !== '':
+            options = await promptForMissingOptions(options);
+            await createDockerFile(options);
+            break;
+        case options.command === 'up' && !options.template:
+            console.log('up');
+            break;
+        default:
+            break;
+    }
+
 }
