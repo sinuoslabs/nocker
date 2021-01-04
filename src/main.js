@@ -10,6 +10,12 @@ import Listr from 'listr';
 const access = promisify(fs.access);
 const copy = promisify(ncp);
 
+/**
+ * Run docker-compose action
+ *
+ * @param options
+ * @returns {Promise<never>}
+ */
 async function runDocker(options) {
     try {
         await execa('docker-compose', ['up -d'], {
@@ -20,6 +26,12 @@ async function runDocker(options) {
     }
 }
 
+/**
+ * Stop docker-compose action
+ *
+ * @param options
+ * @returns {Promise<never>}
+ */
 async function stopDocker(options) {
     try {
         await execa('docker-compose', ['down'], {
@@ -30,12 +42,24 @@ async function stopDocker(options) {
     }
 }
 
+/**
+ * Copy file action
+ *
+ * @param options
+ * @returns {Promise<*>}
+ */
 async function copyTemplateFiles(options) {
     return copy(options.templateDirectory, options.targetDirectory, {
         clobber: false
     });
 }
 
+/**
+ * CLI up action
+ *
+ * @param options
+ * @returns {Promise<boolean>}
+ */
 export async function runEnv(options) {
     const tasks = new Listr([
         {
@@ -50,6 +74,12 @@ export async function runEnv(options) {
     return true;
 }
 
+/**
+ * CLI down action
+ *
+ * @param options
+ * @returns {Promise<boolean>}
+ */
 export async function stopEnv(options) {
     const tasks = new Listr([
         {
@@ -64,6 +94,12 @@ export async function stopEnv(options) {
     return true;
 }
 
+/**
+ * CLI install action
+ *
+ * @param options
+ * @returns {Promise<boolean>}
+ */
 export async function createDockerFile(options) {
     /**
      *
