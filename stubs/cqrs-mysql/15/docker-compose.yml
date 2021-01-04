@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  main:
+    build:
+      context: ./node_modules/nocker/config/nocker/runtimes/15.0
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: nocker-15.0/app
+    environment:
+      WWWUSER: '${WWWUSER}'
+      NOCKER: 1
+    volumes:
+      - '.:/var/app'
+    ports:
+      - '${APP_PORT:-80}:80'
+    command: npm run start
+    networks:
+      - nocker
+    depends_on:
+      - mysql
+  mysql:
+    image: 'mysql:8.0'
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'nockermysql:/var/lib/mysql'
+    networks:
+      - nocker
+  eventstore:
+    image: eventstore/eventstore:20.6.1-buster-slim
+    ports:
+      - '${EVENTSTORE_TCP_PORT:-1113}:1113'
+      - '${EVENTSTORE_HTTP_PORT:-2113}:2113'
+    environment:
+      EVENTSTORE_CLUSTER_SIZE: 1
+      EVENTSTORE_RUN_PROJECTIONS: All
+      EVENTSTORE_START_STANDARD_PROJECTIONS: 1
+      EVENTSTORE_EXT_TCP_PORT: '${EVENTSTORE_TCP_PORT}'
+      EVENTSTORE_EXT_HTTP_PORT: '${EVENTSTORE_HTTP_PORT}'
+      EVENTSTORE_INSECURE: 1
+      EVENTSTORE_ENABLE_EXTERNAL_TCP: 1
+      EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: 1
+    networks:
+      - nocker
+
+networks:
+  nocker:
+    driver: bridge
+
+volumes:
+  nockermysql:
+    driver: local
