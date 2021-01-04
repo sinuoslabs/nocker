@@ -32,8 +32,8 @@
       "email": "dao.houssene@gmail.com"
     }
   ],
-  "repository": "https://github.com/TheMartianGeeks/nocker.git",
-  "bugs": "https://github.com/TheMartianGeeks/nocker/issues",
+  "repository": "https://github.com/themartiangeeks/nocker.git",
+  "bugs": "https://github.com/themartiangeeks/nocker/issues",
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.0",
