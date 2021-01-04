@@ -37,7 +37,7 @@ function parseArgumentsIntoOptions(rawArgs) {
  * @param options
  * @returns {Promise<{template: (*|string)}>}
  */
-async function promptForMissingOptions(options) {
+async function installMissingOptions(options) {
     const defaultTemplate = 'Simple';
     const defaultVersion = '12';
 
@@ -119,7 +119,7 @@ export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
     switch (true) {
         case options.command === 'install':
-            options = await promptForMissingOptions(options);
+            options = await installMissingOptions(options);
             await createDockerFile(options);
             break;
         case options.command === 'up':
