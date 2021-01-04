@@ -3,7 +3,7 @@ version: '3'
 services:
   main:
     build:
-      context: ./config/nocker/runtimes/12.0
+      context: ./node_modules/nocker/config/nocker/runtimes/12.0
       dockerfile: Dockerfile
       args:
         WWWGROUP: '${WWWGROUP}'
