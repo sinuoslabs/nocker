@@ -45,7 +45,7 @@ async function promptForMissingOptions(options) {
             type: 'list',
             name: 'template',
             message: 'Please choose which project template to use',
-            choices: ['Simple', 'CQRS'],
+            choices: ['Simple', 'CQRS', 'MySql', 'Postgres', 'MySql-redis', 'Postgres-redis'],
             default: defaultTemplate
         })
     }
