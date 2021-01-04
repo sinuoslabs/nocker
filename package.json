@@ -2,7 +2,7 @@
   "name": "@djamo/nocker",
   "version": "1.0.0",
   "description": "Docker environment for node project",
-  "main": "src/cli.js",
+  "main": "src/index.js",
   "bin": {
     "@djamo/nocker": "bin/nocker",
     "nocker": "bin/nocker"
