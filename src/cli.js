@@ -100,7 +100,7 @@ async function promptForMissingOptions(options) {
             type: 'list',
             name: 'nodeVersion',
             message: 'Please choose node version for your project',
-            choices: ['12', '14', '15'],
+            choices: [12, 14, 15],
             default: defaultVersion
         });
     }
@@ -144,5 +144,4 @@ export async function cli(args) {
         default:
             break;
     }
-
 }
