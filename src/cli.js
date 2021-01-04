@@ -11,11 +11,12 @@ function parseArgumentsIntoOptions(rawArgs) {
     const args = arg(
         {
             '--install': Boolean,
-            '--yes': Boolean,
+            '--skip': Boolean,
             '--template': String,
             '--node': Number,
             '-i': Boolean,
             '-t': String,
+            '-n': Number,
         },
         {
             argv: rawArgs.slice(2),
@@ -23,7 +24,7 @@ function parseArgumentsIntoOptions(rawArgs) {
     )
 
     return {
-        skipPrompts: args['--yes'] || false,
+        skipPrompts: args['--skip'] || false,
         command: args._[0],
         runInstall: args['--install'] || false,
         nodeVersion: args['--node'],
