@@ -118,14 +118,14 @@ async function promptForMissingOptions(options) {
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
     switch (true) {
-        case (options.command === 'install:env' && options.template === '') || (options.command === 'install:env' && options.template !== ''):
+        case options.command === 'install':
             options = await promptForMissingOptions(options);
             await createDockerFile(options);
             break;
-        case options.command === 'up:env':
+        case options.command === 'up':
             await runEnv(options);
             break;
-        case options.command === 'down:env':
+        case options.command === 'down':
             await stopEnv(options);
             break;
         default:
