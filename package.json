@@ -38,7 +38,9 @@
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.0",
+    "chalk": "^4.1.0",
     "esm": "^3.2.25",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "ncp": "^2.0.0"
   }
 }

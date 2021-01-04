@@ -1,5 +1,6 @@
 import arg from 'arg';
 import inquierer from "inquirer";
+import {createDockerFile} from './main';
 
 /**
  *
@@ -101,5 +102,5 @@ async function promptForMissingOptions(options) {
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
     options = await promptForMissingOptions(options);
-    console.log(options);
+    await createDockerFile(options);
 }
