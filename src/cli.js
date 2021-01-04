@@ -13,12 +13,12 @@ function parseArgumentsIntoOptions(rawArgs) {
             '--install': Boolean,
             '--yes': Boolean,
             '--template': String,
+            '--node': Number,
             '-i': Boolean,
             '-t': String,
         },
         {
             argv: rawArgs.slice(2),
-            stopAtPositional: true
         },
     )
 
@@ -26,6 +26,7 @@ function parseArgumentsIntoOptions(rawArgs) {
         skipPrompts: args['--yes'] || false,
         command: args._[0],
         runInstall: args['--install'] || false,
+        nodeVersion: args['--node'],
         template: args['--template'],
     };
 }
@@ -57,19 +58,6 @@ async function promptForMissingOptions(options) {
      * @type {*[]}
      */
     let questions = [];
-
-    /**
-     * Check if nodejs version defined
-     */
-    if (!options.nodeVersion) {
-        questions.push({
-            type: 'list',
-            name: 'nodeVersion',
-            message: 'Please choose node version for your project',
-            choices: ['12', '14', '15'],
-            default: defaultVersion
-        });
-    }
 
     /**
      * Check if template defined
@@ -104,6 +92,20 @@ async function promptForMissingOptions(options) {
     }
 
     /**
+     * Check if nodejs version defined
+     */
+    if (!options.nodeVersion) {
+        questions.push({
+            type: 'list',
+            name: 'nodeVersion',
+            message: 'Please choose node version for your project',
+            choices: ['12', '14', '15'],
+            default: defaultVersion
+        });
+    }
+
+
+    /**
      * Save user answers
      *
      * @type {*}
@@ -115,9 +117,8 @@ async function promptForMissingOptions(options) {
      */
     return {
         ...options,
-        nodeVersion: options.nodeVersion || answers.nodeVersion,
         template: options.template || answers.template,
-        runInstall: options.runInstall || answers.runInstall
+        nodeVersion: options.nodeVersion || answers.nodeVersion,
     }
 }
 
@@ -132,11 +133,7 @@ export async function cli(args) {
         case options.command === 'down' && !options.template:
             await stopEnv(options);
             break;
-        case options.command === 'install' && options.template === '':
-            options = await promptForMissingOptions(options);
-            await createDockerFile(options);
-            break;
-        case options.command === 'install' && options.template !== '':
+        case (options.command === 'install:env' && options.template === '') || (options.command === 'install:env' && options.template !== ''):
             options = await promptForMissingOptions(options);
             await createDockerFile(options);
             break;

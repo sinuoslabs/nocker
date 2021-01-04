@@ -79,13 +79,13 @@ export async function createDockerFile(options) {
 
     const tasks = new Listr([
         {
-            title: 'Copy docker file',
+            title: 'Create file',
             task: () => copyTemplateFiles(options),
         },
     ]);
 
     await tasks.run();
 
-    console.log('%s Docker file ready', chalk.green.bold('DONE'));
+    console.log('%s Install successfully', chalk.green.bold('DONE'));
     return true;
 }
