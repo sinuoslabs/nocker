@@ -101,7 +101,7 @@ export async function stopEnv(options) {
  */
 export async function createDockerFile(options) {
     /**
-     *
+     * Throw exception when user selected two database
      */
     if (options.template.includes("Mysql") && options.template.includes("Postgres")) {
         console.error('%s you selected two database service', chalk.red.bold('ERROR'));
@@ -117,7 +117,7 @@ export async function createDockerFile(options) {
     const templateDir = path.resolve(
         new URL(currentFileUrl).pathname,
         '../../stubs',
-        options.template.toLowerCase().replace(/, | /gi, '-')
+        options.template.join('-').toLowerCase().replace(/, | /gi, '-')
     );
 
     options.templateDirectory = `${templateDir}/${options.nodeVersion}`;
