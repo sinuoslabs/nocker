@@ -45,7 +45,7 @@ async function promptForMissingOptions(options) {
             type: 'list',
             name: 'template',
             message: 'Please choose which project template to use',
-            choices: ['Simple', 'SQRS'],
+            choices: ['Simple', 'CQRS'],
             default: defaultTemplate
         })
     }
