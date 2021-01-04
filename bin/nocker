@@ -3,8 +3,6 @@
 let chalk = require('chalk');
 require = require('esm')(module /*, options */);
 
-let MACHINE;
-
 if (process.platform === 'darwin') {
     MACHINE = 'mac';
 } else if (process.platform === 'linux') {
@@ -15,7 +13,7 @@ if (process.platform === 'darwin') {
     MACHINE = "UNKNOWN";
 }
 
-if (MACHINE === "mac") {
+if (MACHINE === "UNKNOWN") {
     console.error(`%s Unsupported operating system. Nocker supports macOS, Linux, and Windows.`, chalk.red.bold('ERROR'));
     process.exit(1);
 }
