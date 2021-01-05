@@ -4,7 +4,7 @@ const colors = require('colors');
 // usage represents the help guide
 const usage = function () {
   const usageText = `
-  ${colors.green(`
+  ${colors.rainbow(`
     _   _ _____ _____  _   __ ___________ 
     | \\ | |  _  /  __ \\| | / /|  ___| ___ \\
     |  \\| | | | | /  \\/| |/ / | |__ | |_/ /
@@ -15,11 +15,10 @@ const usage = function () {
 
   nocker helps you setup you docker environment.
 
-  usage:
+  ${colors.yellow('usage:')}
     nocker <command>
 
-    commands can be:
-
+  ${colors.yellow('commands can be:')}
     ${colors.green('install')}:      used to init env
     ${colors.green('up')}:           used to run env
     ${colors.green('down')}:         used to stop env
