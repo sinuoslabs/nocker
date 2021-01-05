@@ -1,4 +1,6 @@
 import {installCommand} from "./commands/install.command";
+import {upCommand} from "./commands/up.command";
+import {downCommand} from "./commands/down.command";
 const colors = require('colors');
 
 // usage represents the help guide
@@ -41,8 +43,10 @@ export async function cli(args) {
             await installCommand(args);
             break
         case 'up':
+            await upCommand(args);
             break
         case 'down':
+            await downCommand(args);
             break
         default:
             usage()
