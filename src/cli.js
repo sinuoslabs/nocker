@@ -3,28 +3,27 @@ const colors = require('colors');
 
 // usage represents the help guide
 const usage = function () {
-  const usageText = `
-  ${colors.rainbow(`
-    _   _ _____ _____  _   __ ___________ 
-    | \\ | |  _  /  __ \\| | / /|  ___| ___ \\
-    |  \\| | | | | /  \\/| |/ / | |__ | |_/ /
-    | . \` | | | | |    |    \\ |  __||    / 
-    | |\\  \\ \\_/ / \\__/\\| |\\  \\| |___| |\\ \\ 
-    \\_| \\_/\\___/ \\____/\\_| \\_/\\____/\\_| \\_|
-  `)}
+  const usageText = `${colors.rainbow(`
+_   _ _____ _____  _   __ ___________ 
+| \\ | |  _  /  __ \\| | / /|  ___| ___ \\
+|  \\| | | | | /  \\/| |/ / | |__ | |_/ /
+| . \` | | | | |    |    \\ |  __||    / 
+| |\\  \\ \\_/ / \\__/\\| |\\  \\| |___| |\\ \\ 
+\\_| \\_/\\___/ \\____/\\_| \\_/\\____/\\_| \\_|
+`)}
+nocker helps you setup you docker environment.
 
-  nocker helps you setup you docker environment.
+${colors.yellow('usage:')}
+  nocker <command> [options]
 
-  ${colors.yellow('usage:')}
-    nocker <command>
+${colors.yellow('commands can be:')}
+  ${colors.green('install')}:      used to init env
+  ${colors.green('up')}:           used to run env
+  ${colors.green('down')}:         used to stop env
+  ${colors.green('prod')}:         update env to past in production
+`;
 
-  ${colors.yellow('commands can be:')}
-    ${colors.green('install')}:      used to init env
-    ${colors.green('up')}:           used to run env
-    ${colors.green('down')}:         used to stop env
-  `
-
-    console.log(usageText)
+  console.log(usageText)
 }
 
 /**
