@@ -1,14 +1,17 @@
 import {installCommand} from "./commands/install.command";
+const colors = require('colors');
 
 // usage represents the help guide
 const usage = function () {
-    const usageText = `
-     _   _ _____ _____  _   __ ___________ 
+  const usageText = `
+  ${colors.green(`
+    _   _ _____ _____  _   __ ___________ 
     | \\ | |  _  /  __ \\| | / /|  ___| ___ \\
     |  \\| | | | | /  \\/| |/ / | |__ | |_/ /
     | . \` | | | | |    |    \\ |  __||    / 
     | |\\  \\ \\_/ / \\__/\\| |\\  \\| |___| |\\ \\ 
     \\_| \\_/\\___/ \\____/\\_| \\_/\\____/\\_| \\_|
+  `)}
 
   nocker helps you setup you docker environment.
 
@@ -17,9 +20,9 @@ const usage = function () {
 
     commands can be:
 
-    install:      used to init env
-    up:           used to run env
-    down:         used to stop env
+    ${colors.green('install')}:      used to init env
+    ${colors.green('up')}:           used to run env
+    ${colors.green('down')}:         used to stop env
   `
 
     console.log(usageText)
