@@ -1,21 +1,4 @@
 #!/usr/bin/env node
 
-//let chalk = require('chalk');
 require = require('esm')(module /*, options */);
-
-/*if (process.platform === 'darwin') {
-    MACHINE = 'mac';
-} else if (process.platform === 'linux') {
-    MACHINE = 'linux';
-} else if (/^win/i.test(process.platform)) {
-    MACHINE = 'windows'
-} else {
-    MACHINE = "UNKNOWN";
-}
-
-if (MACHINE === "UNKNOWN") {
-    console.error(`%s Unsupported operating system. Nocker supports macOS, Linux, and Windows.`, chalk.red.bold('ERROR'));
-    process.exit(1);
-}*/
-
 require('../src/cli').cli(process.argv);
