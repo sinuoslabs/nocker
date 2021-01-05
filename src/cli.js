@@ -3,6 +3,13 @@ import {installCommand} from "./commands/install.command";
 // usage represents the help guide
 const usage = function () {
     const usageText = `
+     _   _ _____ _____  _   __ ___________ 
+    | \\ | |  _  /  __ \\| | / /|  ___| ___ \\
+    |  \\| | | | | /  \\/| |/ / | |__ | |_/ /
+    | . \` | | | | |    |    \\ |  __||    / 
+    | |\\  \\ \\_/ / \\__/\\| |\\  \\| |___| |\\ \\ 
+    \\_| \\_/\\___/ \\____/\\_| \\_/\\____/\\_| \\_|
+
   nocker helps you setup you docker environment.
 
   usage:
@@ -37,7 +44,6 @@ export async function cli(args) {
         case 'down':
             break
         default:
-            console.log('invalid command passed')
             usage()
     }
 }
