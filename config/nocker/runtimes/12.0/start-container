@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
+if [ ! -z "$WWWGROUP" ]; then
+    usermod -u $WWWGROUP nocker
+fi
+
 if [ ! -z "$WWWUSER" ]; then
-    usermod -u $WWWUSER sail
+    usermod -u $WWWUSER nocker
 fi
 
 if [ ! -d /.npm ]; then
