@@ -28,30 +28,16 @@ async function copyTemplateFiles(options) {
  * @param options
  * @returns {Promise<boolean>}
  */
-export async function installTask(options) {
-    /**
-     * Throw exception when user selected two database
-     */
-    if (options.template.includes("Mysql") && options.template.includes("Postgres")) {
-        console.error('%s you selected two database service', chalk.red.bold('ERROR'));
-        process.exit(1);
-    }
-
+export async function initTask(options) {
     options = {
         ...options,
         targetDirectory: options.targetDirectory || process.cwd(),
     };
 
     const currentFileUrl = import.meta.url;
-    const templateDir = path.resolve(
-        new URL(currentFileUrl).pathname,
-        '../../../stubs',
-        ((typeof options.template) === 'array')
-            ? options.template.join('-').toLowerCase().replace(/, | /gi, '-')
-            : options.template.toLowerCase().replace(/, | /gi, '-')
-    );
+    const templateDir = path.resolve(new URL(currentFileUrl).pathname, '../../../stubs');
 
-    options.templateDirectory = `${templateDir}/${options.nodeVersion}`;
+    options.templateDirectory = `${templateDir}`;
 
     try {
         await access(templateDir, fs.constants.R_OK);
@@ -69,6 +55,6 @@ export async function installTask(options) {
 
     await tasks.run();
 
-    console.log('%s Install successfully', chalk.green.bold('DONE'));
+    console.log('%s File is created', chalk.green.bold('DONE'));
     return true;
 }
