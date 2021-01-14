@@ -1,13 +1,30 @@
 import execa from "execa";
+import { dockerIsRunningTask } from "./docker.task";
 
-export async function defaultTask(options) {
+export async function defaultTask(command, option) {
     try {
-        if (! options) {
-            await execa('docker-compose', ['up'], '-d')
+        /**
+         * Check if docker is running before.
+         */
+        await dockerIsRunningTask();
+
+        /**
+         * If command not defined run docker-compose ps
+         */
+        if (! command) {
+            const { stdout } = await execa('docker-compose', ['ps']);
+
+            if (stdout) {
+                console.log(stdout);
+            }
         } else {
-            await execa('docker-compose', [`${options}`])
+            const subprocess = execa.command(`docker-compose ${command} ${option || ''}`);
+            subprocess.stdout.pipe(process.stdout);
+
+            const { stdout, stderr } = await subprocess;
+            console.log(stdout || stderr);
         }
     } catch (e) {
-        return Promise.reject(e.message);
+        console.log(e.stderr || e);
     }
 }
