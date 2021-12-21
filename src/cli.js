@@ -6,7 +6,7 @@ import { defaultCommand } from "./commands/default.command";
  *
  * @param args
  */
-export async function cli(args) {
+const cli = async (args) => {
     const requirements = args.slice(2);
     const command = requirements.shift();
     const option = requirements.pop();
@@ -37,3 +37,5 @@ export async function cli(args) {
             await defaultCommand(command, option)
     }
 }
+
+export default cli;

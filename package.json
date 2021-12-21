@@ -1,10 +1,9 @@
 {
-  "name": "nocker",
-  "version": "1.0.0",
+  "name": "@sinuos/nocker",
+  "version": "0.0.0",
   "description": "Docker environment for node project",
-  "main": "src/index.js",
+  "main": "src/cli.js",
   "bin": {
-    "@djamoapp/nocker": "bin/nocker",
     "nocker": "bin/nocker"
   },
   "publishConfig": {
@@ -18,9 +17,16 @@
     "node",
     "cli"
   ],
-  "author": {
-    "name": "The martian geeks"
-  },
+  "authors": [
+    {
+      "name": "Hassane Dao",
+      "email": "dao.hassane@gmail.com"
+    },
+    {
+      "name": "Houssene Dao",
+      "email": "dao.houssene@gmail.com"
+    }
+  ],
   "contributors": [
     {
       "name": "Hassane Dao",
@@ -31,8 +37,8 @@
       "email": "dao.houssene@gmail.com"
     }
   ],
-  "repository": "https://github.com/themartiangeeks/nocker.git",
-  "bugs": "https://github.com/themartiangeeks/nocker/issues",
+  "repository": "https://github.com/sinuoslabs/nocker.git",
+  "bugs": "https://github.com/sinuoslabs/nocker/issues",
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.0",

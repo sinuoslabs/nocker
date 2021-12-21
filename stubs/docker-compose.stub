@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  main:
+    build:
+      context: ./node_modules/nocker/config/runtimes/15.0
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: nocker-1.0/app
+    environment:
+      WWWUSER: '${WWWUSER}'
+      NOCKER: 1
+    volumes:
+      - '.:/var/app'
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    command: npm run start
+    networks:
+      - nocker
+    depends_on:
+      - redis
+      - pgsql
+      - mysql
+
+networks:
+  nocker:
+    driver: bridge
+
+volumes:
+  nockerpgsql:
+    driver: local
+  nockermysql:
+    driver: local
+  nockerredis:
+    driver: local

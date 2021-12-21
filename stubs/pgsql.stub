@@ -1,0 +1,12 @@
+pgsql:
+    image: 'postgres:latest'
+    ports:
+      - '${FORWARD_PGSQL_DB_PORT:-5432}:5432'
+    environment:
+      POSTGRES_DB: '${PGSQL_DB_NAME}'
+      POSTGRES_USER: '${PGSQL_DB_USERNAME}'
+      POSTGRES_PASSWORD: '${PGSQL_DB_PASSWORD}'
+    volumes:
+      - 'nockerpgsql:/var/lib/postgresql/data'
+    networks:
+      - nocker
