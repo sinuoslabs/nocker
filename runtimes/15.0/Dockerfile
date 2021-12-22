@@ -1,3 +1,3 @@
-FROM node:15
+FROM node:17
 
 LABEL maintainer="sinuoslabs"
