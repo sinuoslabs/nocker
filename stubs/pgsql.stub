@@ -1,17 +1,18 @@
     pgsql:
         image: 'postgres:14'
         ports:
-          - '${FORWARD_DB_PORT:-5432}:5432'
+            - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
-          PGPASSWORD: '${DB_PASSWORD:-secret}'
-          POSTGRES_DB: '${DB_DATABASE:-nocker}'
-          POSTGRES_USER: '${DB_USERNAME:-nocker}'
-          POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE:-nocker}'
+            POSTGRES_USER: '${DB_USERNAME:-nocker}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-          - 'nocker-pgsql:/var/lib/postgresql/data'
+            - 'nocker-pgsql:/var/lib/postgresql/data'
+            - './docker/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
-          - nocker
+            - nocker
         healthcheck:
-          test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
-          retries: 3
-          timeout: 5s
+            test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+            retries: 3
+            timeout: 5s
