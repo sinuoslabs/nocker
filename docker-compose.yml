@@ -2,7 +2,7 @@ version: '3'
 services:
   app.test:
     build:
-      context: ./.docker/runtimes/versions/16
+      context: .docker/runtimes/16
       dockerfile: Dockerfile
       args:
         APP_PORT: '${APP_PORT}'
