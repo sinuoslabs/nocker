@@ -1,0 +1,19 @@
+    mariadb:
+        image: 'mariadb:10'
+        ports:
+          - '${FORWARD_DB_PORT:-3306}:3306'
+        environment:
+          MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-secret}'
+          MYSQL_ROOT_HOST: "%"
+          MYSQL_DATABASE: '${DB_DATABASE:-nocker}'
+          MYSQL_USER: '${DB_USERNAME:-nocker}'
+          MYSQL_PASSWORD: '${DB_PASSWORD:-secret}'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        volumes:
+          - 'nocker-mariadb:/var/lib/mysql'
+        networks:
+          - nocker
+        healthcheck:
+          test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+          retries: 3
+          timeout: 5s

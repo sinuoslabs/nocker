@@ -1,0 +1,60 @@
+version: '3'
+services:
+  app.test:
+    build:
+      context: ./.docker/runtimes/versions/16
+      dockerfile: Dockerfile
+      args:
+        APP_PORT: '${APP_PORT}'
+    image: nocker-1.0/app
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    environment:
+      NODE_ENV: '${APP_ENV}'
+      APP_NAME: '${APP_NAME}'
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - nocker
+    depends_on:
+      - pgsql
+      - redis
+  pgsql:
+    image: 'postgres:14'
+    ports:
+      - '${FORWARD_DB_PORT:-5432}:5432'
+    environment:
+      PGPASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE:-nocker}'
+      POSTGRES_USER: '${DB_USERNAME:-nocker}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+    volumes:
+      - 'nocker-pgsql:/var/lib/postgresql/data'
+    networks:
+      - nocker
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+      retries: 3
+      timeout: 5s
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'nocker-redis:/data'
+    networks:
+      - nocker
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      retries: 3
+      timeout: 5s
+networks:
+  nocker:
+    driver: bridge
+volumes:
+  nocker-pgsql:
+    driver: local
+  nocker-redis:
+    driver: local

@@ -1,0 +1,26 @@
+version: '3'
+services:
+    web:
+        build:
+            context: ./.docker/runtimes/versions/16
+            dockerfile: Dockerfile
+            args:
+                APP_PORT: '${APP_PORT}'
+        image: nocker-1.0/app
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-3000}:3000'
+        environment:
+            NODE_ENV: '${APP_ENV}'
+            APP_NAME: '${APP_NAME}'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - nocker
+{{depends}}
+{{services}}
+networks:
+    nocker:
+        driver: bridge
+{{volumes}}
